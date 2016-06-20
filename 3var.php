@@ -1,11 +1,11 @@
 <?php
 include("Class/Template.php");
 $template = new Template();
-include("/Class/Database.php");
-include("/Class/Prieksmeti.php");
-session_start();
-if(!isset($_SESSION['lietotajvards']))
-{ header("location:index.php"); }
+include("Class/Database.php");
+include("Class/Prieksmeti.php");
+include("Class/userClass.php");
+$user=new userClass();
+$user->sessionCheck();
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -24,9 +24,12 @@ if(!isset($_SESSION['lietotajvards']))
 			?>
 		</nav>
 		<section class="row">
-			<aside class="col-md-4"></aside>
-			<main class="col-md-4 jumbotron">
-					Priekšmeta nosaukums:
+			<aside class="col-md-2">
+				<?php
+				$template->getUserInfo();
+				?>
+			</aside>
+			<main class="col-md-8 jumbotron">
 					<form action = "3var.php" method = "get">
 					<?php
 
@@ -44,6 +47,7 @@ if(!isset($_SESSION['lietotajvards']))
 				?>
 				<br/>
 					<input class="form-control" type = "text" value = "<?php echo $prieksmets->getPrieksmets(); ?>" name = "labpr"/>
+					<input class="form-control" type = "text" value = "<?php echo $prieksmets->getSkolotajs(); ?>" name = "labsk"/>
 					<input type = 'hidden' name = 'ids' value = '<?php echo $prieksmets->getId(); ?>'/>
 					<input class="btn btn-primary" type = "submit" value = "Saglabāt" name = "save"/>
 
@@ -53,6 +57,7 @@ if(!isset($_SESSION['lietotajvards']))
 					if(isset($_GET['save'])) {
 					$prieksmets = new Prieksmeti();
 					$prieksmets->checkPrieksmets($_GET['labpr']);
+					$prieksmets->checkSkolotajs($_GET['labsk']);
 					$prieksmets->checkID($_GET['ids']);
 					$prieksmets->updatePrieksmets();
 
@@ -66,7 +71,7 @@ if(!isset($_SESSION['lietotajvards']))
 				</form>
 				<a href="3var.php"<button class="btn btn-default">Atjaunot</button></a>
 				</main>
-			<aside class="col-md-4"></aside>
+			<aside class="col-md-2"></aside>
 		</section>
 	</section>
     </body>

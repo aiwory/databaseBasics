@@ -3,9 +3,9 @@ include("Class/Template.php");
 $template = new Template();
 include("Class/Database.php");
 include("Class/Prieksmeti.php");
-session_start();
-if(!isset($_SESSION['lietotajvards']))
-{ header("location:index.php"); }
+include("Class/userClass.php");
+$user=new userClass();
+$user->sessionCheck();
 //Nodefinājam funkciju, kura tiks izmantota, lai no tabulas priekšmeti tiku atlasīti visi ieraksti. (Distinct - novēršs ierakstu atkārtošanos)
 
 ?>
@@ -26,20 +26,13 @@ if(!isset($_SESSION['lietotajvards']))
 			?>
 		</nav>
 		<section class="row">
-			<aside class="col-md-4"></aside>
-			<main class="col-md-4 jumbotron">
-			<form action = "4var.php" method = "get">
-				<div class = "virsraksti">Vienkāršs select tag:</div>
-				<select class="form-control" name='programmas'>
-					<!-- Funkcijas izsauksana-->
-					<option value = 'visi ieraksti' selected> Visi ieraksti </option>
-					<?php
-					$prieksmets = new Prieksmeti();
-					$prieksmets->selectPrieksmetsAndID()
-					?>
-					</select><input class="btn btn-primary" type = "submit" name = "delete" value = "Dzēst"/>
-					<br/><br/><hr/><br/>
-			</form>
+			<aside class="col-md-2">
+				<?php
+				$template->getUserInfo();
+				?>
+			</aside>
+			<main class="col-md-8 jumbotron">
+
 
 			<?php
 				$prieksmets = new Prieksmeti();
@@ -50,8 +43,20 @@ if(!isset($_SESSION['lietotajvards']))
 				$prieksmets->selectAll();
 
 			?>
+
+			<form action = "4var.php" method = "get">
+				<select class="form-control" name='programmas'>
+					<!-- Funkcijas izsauksana-->
+					<option value = 'visi ieraksti' selected> Visi ieraksti </option>
+					<?php
+					$prieksmets = new Prieksmeti();
+					$prieksmets->selectPrieksmetsAndID()
+					?>
+				</select><input class="btn btn-primary" type = "submit" name = "delete" value = "Dzēst"/>
+				<br/><br/><hr/><br/>
+			</form>
 			</main>
-			<aside class="col-md-4"></aside>
+			<aside class="col-md-2"></aside>
 		</section>
 	</section>
     </body>

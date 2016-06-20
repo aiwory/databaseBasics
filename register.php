@@ -1,5 +1,5 @@
 <?php
-include("Class/template.php");
+include("Class/Template.php");
 include("Class/Database.php");
 include("Class/userClass.php");
 $template= new Template();
@@ -43,6 +43,7 @@ $template= new Template();
 						<input type="email" class="form-control" id = "email" name = "epasts">
 					</div>
 					<button type="submit" name = "saglabat" class="btn btn-primary">Reģistrēties</button>
+					<button name = "back" class="btn btn-default pull-right">Atpakaļ</button>
 				</form>
 				<?php
 				if(isset($_POST['saglabat'])){
@@ -52,12 +53,14 @@ $template= new Template();
 						$user->insertUser();
 					    echo '<div class = "alert alert-success">Reģistrācija veiksmīga!</div>';
 					}
+
 					else echo '<div class = "alert alert-danger">Paroles nesakrīt, lūdzu ievadiet nepieciešamo informāciju vēlreiz!</div>';
 				}
-
+				else if(isset($_POST["back"]))
+					header("Location:index.php");
 				?>
 				<div>
-					<a href = "index.php"><button name = "back" class="btn btn-default">Atpakaļ</button></a>
+
 				</div>
 			</main>
 			<aside class = "col-md-4"></aside>

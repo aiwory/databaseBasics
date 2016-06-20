@@ -16,7 +16,7 @@ session_destroy();
 </head>
 
 <body>
-	<section class = "container-fluid">
+	<section id="saturs"class = "container-fluid">
 		<section class="row">
 		<aside class = "col-md-4"></aside>
 		<main class= "col-md-4 jumbotron">
@@ -61,7 +61,7 @@ session_destroy();
 				</div>
 				<button type="submit" name = "pieslegties" class="btn btn-primary">Pieslēgties</button>
 				<button name = "register" class="btn btn-default pull-right">Reģistrēties</button>
-
+				<div class="col-centered"><a href="recovery.php">Atjaunot paroli</a></div>
 			</form>
 
 			<div class>

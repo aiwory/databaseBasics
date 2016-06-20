@@ -10,6 +10,11 @@ class Prieksmeti extends Database
 {
     var $prieksmets;
     var $id;
+    var $skolotajs;
+
+    public function getSkolotajs(){
+        return $this->skolotajs;
+    }
 
     public function getPrieksmets()
     {
@@ -23,6 +28,10 @@ class Prieksmeti extends Database
 
     function checkPrieksmets($prieksmets){
         $this->prieksmets=$this->con->real_escape_string($prieksmets);
+    }
+
+    function checkSkolotajs($skolotajs){
+        $this->skolotajs=$this->con->real_escape_string($skolotajs);
     }
 
     function selectPrieksmetsAndID(){
@@ -52,8 +61,8 @@ class Prieksmeti extends Database
 
     function insertData(){
 
-        $sql =("INSERT INTO prieksmeti (prieksmets) VALUES
-		('{$this->prieksmets}')")or die($this->con->error);
+        $sql =("INSERT INTO prieksmeti (prieksmets,skolotajs) VALUES
+		('{$this->prieksmets}','{$this->skolotajs}')")or die($this->con->error);
         $this->con->query($sql);
 
     }
@@ -64,12 +73,15 @@ class Prieksmeti extends Database
         //nodrošina nummerāciju
         $i = 0;
         echo '<table class="table table-bordered">';
+        echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'right' ><b>Npk.</b></td>";
+        echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left' ><b>Priekšmets</b></td>";
+        echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left' ><b>Skolotājs</b></td>";
         while($row = mysqli_fetch_array($result)) {
             $i++;
             echo "<tr>";
-            echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'right' ><b>{$i}.</b></td>";
-            echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left'><b>{$row['prieksmets']}</b></td>";
-
+            echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'right' >{$i}.</td>";
+            echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left'>{$row['prieksmets']}</td>";
+            echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left'>{$row['skolotajs']}</td>";
             echo "</tr>";
         }
         echo "</table>";
@@ -82,11 +94,16 @@ class Prieksmeti extends Database
         //nodrošina nummerāciju
         $i = 0;
         echo '<table class= "table table-bordered">';
+        echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'right' ><b>Npk.</b></td>";
+        echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left' ><b>Priekšmets</b></td>";
+        echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left' ><b>Skolotājs</b></td>";
+        echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left' ><b>Rediģēšana</b></td>";
         while($row = mysqli_fetch_array($result)) {
             $i++;
             echo "<tr>";
-            echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'right' ><b>{$i}.</b></td>";
-            echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left'><b>{$row['prieksmets']}</b></td>";
+            echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'right' >{$i}.</td>";
+            echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left'>{$row['prieksmets']}</td>";
+            echo "<td width='100px' align = 'center'><div class = 'tabulas_teksts' align = 'left'>{$row['skolotajs']}</td>";
             echo "<td width='100px'><a class='btn btn-primary' href='3var.php?ID={$row['ID']}'>Labot</a></td>";
             echo "</tr>";
         }
@@ -102,6 +119,7 @@ class Prieksmeti extends Database
 
         while($row = mysqli_fetch_array($result)) {
             $this->prieksmets =  $row['prieksmets'];
+            $this->skolotajs =  $row['skolotajs'];
         }
 
         echo "<div><b>Ieraksts kurš tiks labots: </b>$this->prieksmets</div>";
@@ -109,7 +127,7 @@ class Prieksmeti extends Database
     }
 
     function updatePrieksmets(){
-        $sql = ("UPDATE prieksmeti SET prieksmets = '$this->prieksmets' WHERE ID = '$this->id'")or die($this->con->error);
+        $sql = ("UPDATE prieksmeti SET prieksmets = '$this->prieksmets',skolotajs = '$this->skolotajs' WHERE ID = '$this->id'")or die($this->con->error);
         $this->con->query($sql);
 
 

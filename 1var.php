@@ -1,11 +1,11 @@
 <?php
-include("/Class/Template.php");
-include("/Class/Database.php");
-include("/Class/Prieksmeti.php");
+include("Class/Template.php");
+include("Class/Database.php");
+include("Class/Prieksmeti.php");
 $template = new Template();
-session_start();
-if(!isset($_SESSION['lietotajvards']))
-{ header("location:index.php"); }
+include("Class/userClass.php");
+$user=new userClass();
+$user->sessionCheck();
 ?>
 
 <!DOCTYPE html>
@@ -25,8 +25,12 @@ if(!isset($_SESSION['lietotajvards']))
 		?>
 	</nav>
 	<section class="row">
-		<aside class="col-md-4"></aside>
-		<main class="col-md-4 jumbotron">
+		<aside class="col-md-2">
+			<?php
+			$template->getUserInfo();
+			?>
+		</aside>
+		<main class="col-md-8 jumbotron">
 			<form action = "1var.php" method = "post">
 						<!-- OTRAIS SELECT TAG-->
 				<select class="form-control" name="programmas">
@@ -41,22 +45,23 @@ if(!isset($_SESSION['lietotajvards']))
 				<button class="btn btn-primary" type = "submit" name = "sutit">Apstiprināt</button>
 				</div>
 				</form>
-			<span class="alert-info">
+			<div class="alert-info">
 			<?php
 
 
 
 			if(isset($_POST['sutit'])){
 				$programmas = $_POST['programmas'];
-				echo "Jūs izvēlējāties priekšmetu: <b>{$programmas}<b/>";
+
+				echo "Jūs izvēlējāties priekšmetu: <b>{$programmas}</b>";
 			}
 
 
 
 			?>
-			</span>
+			</div>
 		</main>
-		<aside class="col-md-4"></aside>
+		<aside class="col-md-2"></aside>
 	</section>
 </section>
 </body>

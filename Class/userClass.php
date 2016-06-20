@@ -14,6 +14,7 @@ class userClass extends Database
     var $lietotajvards;
     var $parole;
     var $epasts;
+    var $foto;
     var $hash;
 
 
@@ -45,10 +46,14 @@ class userClass extends Database
     }
 
     function userLogin(){
-        $sql = "SELECT parole FROM lietotaji WHERE lietotajvards = '{$this->lietotajvards}'";
+        $sql = "SELECT parole,lietotajvards,vards,uzvards,photo FROM lietotaji WHERE lietotajvards = '{$this->lietotajvards}'";
         $result=$this->con->query($sql);
         while($row = mysqli_fetch_array($result)) {
             $this->hash = $row['parole'];
+            $this->lietotajvards =$row['lietotajvards'];
+            $this->vards =$row['vards'];
+            $this->uzvards =$row['uzvards'];
+            $this->foto =$row['photo'];
         }
         if(!password_verify($this->parole, $this->hash)) {
             echo '<div class="alert alert-danger">Nepareizs lietotājvārds vai parole!</div>';
@@ -57,6 +62,16 @@ class userClass extends Database
             header("location:sakums.php");
             session_start();
             $_SESSION['lietotajvards'] = $this->lietotajvards;
+            $_SESSION['vards'] = $this->vards;
+            $_SESSION['uzvards'] = $this->uzvards;
+            $_SESSION['foto'] = $this->foto;
+        }
+    }
+    function sessionCheck(){
+        session_start();
+        if(!isset($_SESSION['lietotajvards']))
+        {
+            header("location:index.php");
         }
     }
 }
